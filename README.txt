@@ -21,10 +21,10 @@ BPL and NBA results are returned using Flask Restful endpoints on localhost
 Results are returned 40 at a time
 
 BPL endpoint
-http://127.0.0.1:5000/sport_api/v1/bpl?page=5&date=2020-09-21
+http://127.0.0.1:5000/sport_api/v1/bpl
 
 NBA endpoint
-http://127.0.0.1:5000/sport_api/v1/nba?page=5&date=2020-09-21
+http://127.0.0.1:5000/sport_api/v1/nba
 
 BONUS:
 Pagination enabled so user can query for specific page required (40 results per page)
