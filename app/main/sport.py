@@ -7,7 +7,6 @@ main = Blueprint('main', __name__)
 
 
 @main.route('/', methods=['GET'])
-@main.route('/sport_api/v1', methods=['GET'])
 def sport():
     # Call api and retrieve all match results
     games = api_call()
@@ -50,6 +49,37 @@ def bpl():
     sorted_bpl_results = json.dumps(sorted_bpl_results)
     return sorted_bpl_results
 
+
+# End_point that returns nba data
+@main.route('/sport_api/v1/nba', methods=['GET'])
+def nba():
+    # Query data for additional params
+    query_parameters = request.args
+    page = query_parameters.get('page')
+    date = query_parameters.get('date')
+
+    # Call api and retrieve nba results
+    if page:
+        games = api_call(page=page)
+    else:
+        games = api_call()
+
+    nba_results = games['nba_games']
+
+    # Sort data with most recent game first in json
+    sorted_nba_results = sorted(nba_results,
+                                key=lambda x: datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%fZ'),
+                                reverse=True)
+
+    # Query current results if date param passed
+    if date:
+        date_filter = datetime.strptime(date, '%Y-%m-%d').date()
+        sorted_nba_results = [x for x in sorted_nba_results
+                              if datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%fZ').date() == date_filter]
+
+    sorted_nba_results = json.dumps(sorted_nba_results)
+
+    return sorted_nba_results
 
 
 if __name__ == '__main__':
