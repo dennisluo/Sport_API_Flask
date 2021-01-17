@@ -5,7 +5,7 @@ import json
 
 main = Blueprint('main', __name__)
 
-
+# BONUS Endpoint to return all APIs data
 @main.route('/', methods=['GET'])
 def sport():
     # Call api and retrieve all match results
